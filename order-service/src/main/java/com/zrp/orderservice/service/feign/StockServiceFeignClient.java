@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(name = "stock-service", url = "http://localhost:9003")
+@FeignClient(name = "stock-service", url = "http://localhost:9003/api/v1")
 public interface StockServiceFeignClient {
 
     @GetMapping(value = "/stock/{articleId}/{storeId}/{storeLoc}", produces = "application/json")
