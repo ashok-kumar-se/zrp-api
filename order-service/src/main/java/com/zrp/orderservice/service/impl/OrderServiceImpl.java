@@ -23,26 +23,31 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    // Initialize order repository
     @Autowired
     private OrderRepository orderRepository;
 
+    // Initialize order article repository
     @Autowired
     private OrderArticleRepository orderArticleRepository;
 
+    // Initialize stock service feign client
     @Autowired
     private StockServiceClient stockServiceClient;
 
+    // Initialize article service feign client
     @Autowired
     private ArticleServiceClient articleServiceClient;
 
+    // Initialize model mapping
     @Autowired
     private ModelMapper modelMapper;
 
     /**
      * Fetch all the orders for a given order status
      *
-     * @param orderStatus
-     * @return
+     * @param orderStatus - string
+     * @return List of type OrderDto
      */
     @Override
     public List<OrderDto> getOrdersByOrderStatus(String orderStatus) {
@@ -57,31 +62,44 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * Fetch all the articles for a given web order id
+     * First it fetches all the order article details for the given web order Id.
+     * Then a function is called to extract list of article Id alone from the above fetched list.
+     * Then it communicates with article service to fetch the article details
+     * for the above fetched list of article Id.
+     * Finally it communicates with stock service and fetch the stock details
+     * for the above list of article details for the given store Id and location.
      *
-     * @param webOrderId
-     * @return
+     * @param webOrderId - string
+     * @param storeId - string
+     * @return List of type OrderArticleDto
      */
     @Override
     public List<OrderArticleDto> getArticlesByWebOrderId(String webOrderId, String storeId) {
 
+        // fetches list of order article details for the given web order id
         final List<OrderArticle> orderArticles = orderArticleRepository.findByWebOrderId(webOrderId);
 
         List<OrderArticleDto> orderArticleDtoList;
 
+        // check if list is not empty
         if (!orderArticles.isEmpty()) {
 
+            // model mapping
             orderArticleDtoList = mapOrderArticles(orderArticles);
 
-            final List<String> articles = getArticleIdsFromOrder(orderArticleDtoList);
+            // function that returns list of article Id
+            final List<String> articleIds = getArticleIdsFromOrderArticleList(orderArticleDtoList);
 
-            final List<ArticleDto> articleResponse = articleServiceClient.getArticles(articles);
+            // fetches list of article details for the given list of article Id
+            final List<ArticleDto> articleServiceClientResponse = articleServiceClient.getArticles(articleIds);
 
-            if (!articleResponse.isEmpty()) {
+            if (!articleServiceClientResponse.isEmpty()) {
 
+                // loop for article details
                 orderArticleDtoList.forEach(orderArticle -> {
 
-                    Optional<ArticleDto> filter = articleResponse.stream()
+                    // filter the current article in the loop
+                    Optional<ArticleDto> filter = articleServiceClientResponse.stream()
                             .filter(data -> orderArticle.getArticleId().equals(data.getArticleId()))
                             .findFirst();
 
@@ -89,10 +107,12 @@ public class OrderServiceImpl implements OrderService {
 
                         orderArticle.setArticle(filter.get());
 
-                        Optional<ArticleStockDto> articleStockResponse = stockServiceClient.getArticleStock(orderArticle.getArticleId(), storeId, "0001");
+                        // fetches stock details for the current article in the loop, store Id and location
+                        Optional<ArticleStockDto> stockServiceClientResponse = stockServiceClient.getArticleStock(orderArticle.getArticleId(), storeId, "0001");
 
-                        if (articleStockResponse.isPresent()) {
-                            Integer quantity = articleStockResponse.get().getStockQty();
+                        // set the stock qty for the current article in the loop
+                        if (stockServiceClientResponse.isPresent()) {
+                            int quantity = stockServiceClientResponse.get().getStockQty();
                             orderArticle.setArticleStockQty(quantity);
                         }
 
@@ -105,18 +125,28 @@ public class OrderServiceImpl implements OrderService {
         return Collections.emptyList();
     }
 
-    @SuppressWarnings("unused")
-    private List<String> getArticleIdsFromOrder(List<OrderArticleDto> orderArticleDtoList) {
-        return orderArticleDtoList.stream()
-                .map(article -> modelMapper.map(article.getArticleId(), String.class))
-                .collect(Collectors.toList());
-    }
-
+    /**
+     * accepts list of type OrderArticle and returns list of type OrderArticleDto
+     * @param orderArticles - list of type OrderArticle
+     * @return list of type OrderArticleDto
+     */
     @SuppressWarnings("unused")
     private List<OrderArticleDto> mapOrderArticles(List<OrderArticle> orderArticles) {
         return orderArticles
                 .stream()
                 .map(article -> modelMapper.map(article, OrderArticleDto.class))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * accepts list of type OrderArticleDto and returns list of article Id
+     * @param orderArticleDtoList - list of type OrderArticleDto
+     * @return list of string(article Id)
+     */
+    @SuppressWarnings("unused")
+    private List<String> getArticleIdsFromOrderArticleList(List<OrderArticleDto> orderArticleDtoList) {
+        return orderArticleDtoList.stream()
+                .map(article -> modelMapper.map(article.getArticleId(), String.class))
                 .collect(Collectors.toList());
     }
 
