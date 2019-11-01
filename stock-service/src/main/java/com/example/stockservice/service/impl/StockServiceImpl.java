@@ -17,17 +17,21 @@ import java.util.Optional;
 @Service
 public class StockServiceImpl implements StockService {
 
+    // Initialize stock repository
     @Autowired
     private StockRepository stockRepository;
 
+    // Initialize model mapping
     @Autowired
     private ModelMapper modelMapper;
 
     /**
-     * Fetch stock details for a given article id
+     * Fetch stock details for a given article Id, store Id and store location
      *
-     * @param articleId
-     * @return
+     * @param articleId string
+     * @param storeId string
+     * @param storeLoc string
+     * @return Object of type ArticleStockDto
      */
     @Override
     public ArticleStockDto getArticleStock(String articleId, String storeId, String storeLoc) {
