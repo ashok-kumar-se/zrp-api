@@ -18,12 +18,20 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+    // Initialize article repository
     @Autowired
     private ArticleRepository articleRepository;
 
+    // Initialize model mapping
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Fetch the article details for a given article Id
+     *
+     * @param articleId - string
+     * @return Object of type ArticleDto
+     */
     @Override
     public ArticleDto getArticleDetails(String articleId) {
         Optional<Article> article = articleRepository.findByArticleId(articleId);
@@ -33,6 +41,12 @@ public class ArticleServiceImpl implements ArticleService {
         throw new CustomException("Article [" + articleId + "] details doesn't exist", HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Fetch list of article details for the given list of article Ids
+     *
+     * @param articleIds - list of string
+     * @return List of type ArticleDto
+     */
     @Override
     public List<ArticleDto> getArticlesDetails(List<String> articleIds) {
         List<Article> articles = articleRepository.findByArticleIdIn(articleIds);
