@@ -7,18 +7,18 @@ import com.zrp.orderservice.dto.OrderArticleDto;
 import com.zrp.orderservice.dto.OrderDto;
 import com.zrp.orderservice.service.OrderService;
 import org.junit.*;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OrderControllerTest {
-    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderControllerTest.class);
 
     @InjectMocks
     OrderController orderController;

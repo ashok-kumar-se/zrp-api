@@ -10,17 +10,17 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
 
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class ArticleServiceTest {
-    private static final Logger logger = LoggerFactory.getLogger(ArticleService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceTest.class);
 
     @Mock
     ArticleRepository articleRepository;
