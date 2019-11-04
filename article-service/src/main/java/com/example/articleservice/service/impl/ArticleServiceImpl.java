@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
     // Initialize article repository
     @Autowired
     private ArticleRepository articleRepository;
@@ -37,8 +37,8 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public ArticleDto getArticleByArticleId(String articleId) {
+        logger.debug("Method: getArticleByArticleId(), Params: articleId - {}", articleId);
         Optional<Article> article = articleRepository.findById(articleId);
-        logger.info("ArticleId: {}", articleId);
         if (article.isPresent()) {
             return modelMapper.map(article.get(), ArticleDto.class);
         }
@@ -53,6 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public List<ArticleDto> getArticlesByArticleIds(List<String> articleIds) {
+        logger.debug("Method: getArticlesByArticleIds(), Params: articleIds - {}", articleIds);
         List<Article> articles = articleRepository.findByArticleIdIn(articleIds);
         if (!articles.isEmpty()) {
             return articles.stream()
