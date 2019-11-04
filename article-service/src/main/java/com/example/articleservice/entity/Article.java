@@ -15,8 +15,6 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "articles")
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdDate", "modifiedDate"}, allowGetters = true)
 public class Article implements Serializable {
 
     @Id
@@ -38,15 +36,4 @@ public class Article implements Serializable {
     @NotBlank
     @Column(name = "image_url")
     private String imageUrl;
-
-    @Column(name = "created_date", nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdDate;
-
-    @Column(name = "modified_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date modifiedDate;
-
 }
