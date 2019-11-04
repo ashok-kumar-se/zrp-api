@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public ArticleDto getArticleByArticleId(String articleId) {
-        Optional<Article> article = articleRepository.findByArticleId(articleId);
+        Optional<Article> article = articleRepository.findById(articleId);
         if (article.isPresent()) {
             return modelMapper.map(article.get(), ArticleDto.class);
         }
