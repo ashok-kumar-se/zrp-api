@@ -6,6 +6,8 @@ import com.example.articleservice.exceptions.CustomException;
 import com.example.articleservice.repository.ArticleRepository;
 import com.example.articleservice.service.ArticleService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ArticleService.class);
     // Initialize article repository
     @Autowired
     private ArticleRepository articleRepository;
@@ -34,7 +37,8 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public ArticleDto getArticleByArticleId(String articleId) {
-        Optional<Article> article = articleRepository.findByArticleId(articleId);
+        Optional<Article> article = articleRepository.findById(articleId);
+        logger.info("ArticleId: {}", articleId);
         if (article.isPresent()) {
             return modelMapper.map(article.get(), ArticleDto.class);
         }

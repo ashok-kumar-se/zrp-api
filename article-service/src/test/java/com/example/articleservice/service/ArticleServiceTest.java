@@ -3,6 +3,7 @@ package com.example.articleservice.service;
 
 import  static org.mockito.Mockito.*;
 
+import com.example.articleservice.exceptions.CustomException;
 import com.example.articleservice.repository.ArticleRepository;
 import com.example.articleservice.service.impl.ArticleServiceImpl;
 import org.junit.jupiter.api.*;
@@ -31,9 +32,9 @@ public class ArticleServiceTest {
     List<String> articleIds = Arrays.asList("152648","152645");
 
     @Test
-    public void getArticleByArticleIdTest() {
+    public void getArticleByArticleIdTest() throws CustomException {
         articleServiceImpl.getArticleByArticleId(articleId);
-        verify(articleRepository, times(1)).findByArticleId(articleId);
+        verify(articleRepository, times(1)).findById(articleId);
     }
 
     @Test
