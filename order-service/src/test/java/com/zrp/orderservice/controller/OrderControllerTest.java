@@ -40,6 +40,7 @@ public class OrderControllerTest {
     public void getOrdersByOrderStatusTest() {
         List<OrderDto> orders = new ArrayList<>();
         orders.add(orderDto);
+        logger.debug("Method: getOrdersByOrderStatus(), Parameters: orderStatus - {}", orderStatus);
         when(orderService.getOrdersByOrderStatus(orderStatus)).thenReturn(orders);
         assertEquals(orderController.getOrdersByOrderStatus(orderStatus).getBody().size(), orders.size());
     }
