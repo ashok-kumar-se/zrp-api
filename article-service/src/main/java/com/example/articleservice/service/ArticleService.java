@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface ArticleService {
-    ArticleDto getArticleDetails(String articleId);
+    ArticleDto getArticleByArticleId(String articleId);
 
-    List<ArticleDto> getArticlesDetails(List<String> articleIds);
+    List<ArticleDto> getArticlesByArticleIds(List<String> articleIds);
 }

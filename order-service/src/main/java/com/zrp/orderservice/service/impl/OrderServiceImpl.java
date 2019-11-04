@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
             final List<String> articleIds = getArticleIdsFromOrderArticleList(orderArticleDtoList);
 
             // fetches list of article details for the given list of article Id
-            final List<ArticleDto> articleServiceClientResponse = articleServiceClient.getArticles(articleIds);
+            final List<ArticleDto> articleServiceClientResponse = articleServiceClient.getArticlesByArticleIds(articleIds);
 
             if (!articleServiceClientResponse.isEmpty()) {
 
@@ -108,7 +108,8 @@ public class OrderServiceImpl implements OrderService {
                         orderArticle.setArticle(filter.get());
 
                         // fetches stock details for the current article in the loop, store Id and location
-                        Optional<ArticleStockDto> stockServiceClientResponse = stockServiceClient.getArticleStock(orderArticle.getArticleId(), storeId, "0001");
+                        Optional<ArticleStockDto> stockServiceClientResponse =
+                                stockServiceClient.getStockByArticleIdAndStoreIdAndStoreLoc(orderArticle.getArticleId(), storeId, "0001");
 
                         // set the stock qty for the current article in the loop
                         if (stockServiceClientResponse.isPresent()) {

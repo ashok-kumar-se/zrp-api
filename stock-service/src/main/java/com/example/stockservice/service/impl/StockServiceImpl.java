@@ -34,7 +34,7 @@ public class StockServiceImpl implements StockService {
      * @return Object of type ArticleStockDto
      */
     @Override
-    public ArticleStockDto getArticleStock(String articleId, String storeId, String storeLoc) {
+    public ArticleStockDto getStockByArticleIdAndStoreIdAndStoreLoc(String articleId, String storeId, String storeLoc) {
         Optional<ArticleStock> articleStock = stockRepository.findById(new ArticleStockIdentity(articleId, storeId, storeLoc));
         if (articleStock.isPresent()) {
             return modelMapper.map(articleStock.get(), ArticleStockDto.class);

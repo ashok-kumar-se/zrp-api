@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface StockServiceFeignClient {
 
     @GetMapping(value = "/stock/{articleId}/{storeId}/{storeLoc}", produces = "application/json")
-    Optional<ArticleStockDto> getArticleStock(@PathVariable(value = "articleId") String articleId, @PathVariable(value = "storeId") String storeId, @PathVariable(value = "storeLoc") String storeLoc);
+    Optional<ArticleStockDto> getStockByArticleIdAndStoreIdAndStoreLoc(@PathVariable(value = "articleId") String articleId, @PathVariable(value = "storeId") String storeId, @PathVariable(value = "storeLoc") String storeLoc);
 }

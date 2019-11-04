@@ -19,8 +19,8 @@ public class StockServiceClient {
     @HystrixCommand(fallbackMethod = "getDefaultArticleStock", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
-    public Optional<ArticleStockDto> getArticleStock(String articleId, String storeId, String storeLoc) {
-        return this.stockServiceFeignClient.getArticleStock(articleId, storeId, storeLoc);
+    public Optional<ArticleStockDto> getStockByArticleIdAndStoreIdAndStoreLoc(String articleId, String storeId, String storeLoc) {
+        return this.stockServiceFeignClient.getStockByArticleIdAndStoreIdAndStoreLoc(articleId, storeId, storeLoc);
     }
 
     @SuppressWarnings("unused")

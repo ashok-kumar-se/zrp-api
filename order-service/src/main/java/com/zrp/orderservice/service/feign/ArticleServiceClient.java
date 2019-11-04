@@ -20,8 +20,8 @@ public class ArticleServiceClient {
     @HystrixCommand(fallbackMethod = "getDefaultArticles", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
-    public List<ArticleDto> getArticles(List<String> articleIds) {
-        return this.articleServiceFeignClient.getArticles(articleIds);
+    public List<ArticleDto> getArticlesByArticleIds(List<String> articleIds) {
+        return this.articleServiceFeignClient.getArticlesByArticleIds(articleIds);
     }
 
     @SuppressWarnings("unused")

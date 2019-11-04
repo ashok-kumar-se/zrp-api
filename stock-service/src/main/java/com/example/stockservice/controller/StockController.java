@@ -18,8 +18,8 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping("/{articleId}/{storeId}/{storeLoc}")
-    public ResponseEntity<ArticleStockDto> getArticleStock(@PathVariable(value = "articleId") String articleId, @PathVariable(value = "storeId") String storeId, @PathVariable(value = "storeLoc") String storeLoc) {
-        return new ResponseEntity<ArticleStockDto>(stockService.getArticleStock(articleId, storeId, storeLoc), HttpStatus.OK);
+    public ResponseEntity<ArticleStockDto> getStockByArticleIdAndStoreIdAndStoreLoc(@PathVariable(value = "articleId") String articleId, @PathVariable(value = "storeId") String storeId, @PathVariable(value = "storeLoc") String storeLoc) {
+        return new ResponseEntity<ArticleStockDto>(stockService.getStockByArticleIdAndStoreIdAndStoreLoc(articleId, storeId, storeLoc), HttpStatus.OK);
     }
 
 

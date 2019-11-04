@@ -33,7 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return Object of type ArticleDto
      */
     @Override
-    public ArticleDto getArticleDetails(String articleId) {
+    public ArticleDto getArticleByArticleId(String articleId) {
         Optional<Article> article = articleRepository.findByArticleId(articleId);
         if (article.isPresent()) {
             return modelMapper.map(article.get(), ArticleDto.class);
@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return List of type ArticleDto
      */
     @Override
-    public List<ArticleDto> getArticlesDetails(List<String> articleIds) {
+    public List<ArticleDto> getArticlesByArticleIds(List<String> articleIds) {
         List<Article> articles = articleRepository.findByArticleIdIn(articleIds);
         if (!articles.isEmpty()) {
             return articles.stream()

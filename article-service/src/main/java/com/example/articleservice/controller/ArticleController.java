@@ -17,13 +17,13 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleDto> getArticle(@PathVariable(value = "articleId") String articleId) {
-        return new ResponseEntity<ArticleDto>(articleService.getArticleDetails(articleId), HttpStatus.OK);
+    public ResponseEntity<ArticleDto> getArticleByArticleId(@PathVariable(value = "articleId") String articleId) {
+        return new ResponseEntity<ArticleDto>(articleService.getArticleByArticleId(articleId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<List<ArticleDto>> getArticle(@RequestBody List<String> articleIds) {
-        return new ResponseEntity<List<ArticleDto>>(articleService.getArticlesDetails(articleIds), HttpStatus.OK);
+    public ResponseEntity<List<ArticleDto>> getArticlesByArticleIds(@RequestBody List<String> articleIds) {
+        return new ResponseEntity<List<ArticleDto>>(articleService.getArticlesByArticleIds(articleIds), HttpStatus.OK);
     }
 
 }

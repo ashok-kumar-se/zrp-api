@@ -10,5 +10,5 @@ import java.util.List;
 @FeignClient(name = "article-service", url = "http://localhost:9002/api/v1")
 public interface ArticleServiceFeignClient {
     @PostMapping(value = "/article", produces = "application/json")
-    List<ArticleDto> getArticles(@RequestBody List<String> articleIds);
+    List<ArticleDto> getArticlesByArticleIds(@RequestBody List<String> articleIds);
 }
