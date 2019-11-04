@@ -12,6 +12,8 @@ import com.zrp.orderservice.service.OrderService;
 import com.zrp.orderservice.service.feign.ArticleServiceClient;
 import com.zrp.orderservice.service.feign.StockServiceClient;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     // Initialize order repository
     @Autowired
@@ -51,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderDto> getOrdersByOrderStatus(String orderStatus) {
+        logger.debug("Method: getOrdersByOrderStatus(), Params: orderStatus - {}", orderStatus);
         List<Order> orders = orderRepository.findByOrderStatus(orderStatus);
         if (!orders.isEmpty()) {
             return orders
@@ -75,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderArticleDto> getArticlesByWebOrderId(String webOrderId, String storeId) {
-
+        logger.debug("Method: getArticlesByWebOrderId(), Params: webOrderId - {}, storeId - {}", webOrderId, storeId);
         // fetches list of order article details for the given web order id
         final List<OrderArticle> orderArticles = orderArticleRepository.findByWebOrderId(webOrderId);
 
